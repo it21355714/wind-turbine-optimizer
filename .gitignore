@@ -1,0 +1,22 @@
+# ── Virtual environment ────────────────────────────────────────────────
+Scripts/
+Lib/
+Include/
+pyvenv.cfg
+
+# ── Python cache & logs ───────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.log
+
+# ── IDE & OS files ────────────────────────────────────────────────────
+.vscode/
+.DS_Store
+.env
+
+# ── Un-ignore our code & data ─────────────────────────────────────────
+!app/
+!wind-turbine-optimizer/
+!*.py
+!requirements.txt
+!*.db
