@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wind Turbine Power Optimization</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f2f2f2; padding: 20px; }
+        form { background: #fff; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; }
+        h2 { text-align: center; }
+        input, label, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
+        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .result { text-align: center; margin-top: 20px; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+
+    <form method="POST" action="/prediction">
+        <h2>Wind Turbine Optimization Predictor</h2>
+
+        <label for="wind_speed">Wind Speed (m/s)</label>
+        <input type="number" name="wind_speed" step="any" required>
+
+        <label for="Rotor_speed">Rotor speed (RPM)</label>
+        <input type="number" name="Rotor_speed" step="any" required>
+
+        <label for="Nacelle_position">Nacelle position</label>
+        <input type="number" name="Nacelle_position" step="any" required>
+
+        <label for="Blade_angle">Blade angle</label>
+        <input type="number" name="Blade_angle" step="any" required>
+
+        <button type="submit">Predict Optimized Power</button>
+
+        {% if results %}
+        <div class="result">
+            <strong>Predicted Optimized Power:</strong> {{ results }} kW
+        </div>
+        {% endif %}
+    </form>
+
+</body>
+</html>

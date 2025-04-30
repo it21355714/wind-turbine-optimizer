@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Power Curve Analysis</title>
+</head>
+<body>
+    <h1>Power Curve Analysis</h1>
+
+    <h2>Evaluation Metrics</h2>
+    <table border="1" cellpadding="8">
+        <tr>
+            <th>Model</th>
+            <th>R² Score</th>
+            <th>MSE</th>
+            <th>MAE</th>
+        </tr>
+        {% for model, score in metrics.items() %}
+        <tr>
+            <td>{{ model }}</td>
+            <td>{{ score['R2'] }}</td>
+            <td>{{ score['MSE'] }}</td>
+            <td>{{ score['MAE'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Prediction Graphs</h2>
+    {% for graph in graphs %}
+        <div style="margin: 20px 0;">
+            <img src="{{ url_for('static', filename=graph.split('/')[-1]) }}" width="600">
+        </div>
+    {% endfor %}
+</body>
+</html>
