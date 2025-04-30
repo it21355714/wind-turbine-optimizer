@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wind Turbine Risk Prediction</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    input, button { margin-bottom: 10px; padding: 5px; width: 200px; }
+    table { border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #888; padding: 8px 12px; text-align: center; }
+    th { background-color: #eee; }
+  </style>
+</head>
+<body>
+  <h2>🌤️ Real-Time Weather & Turbine Data</h2>
+  <form method="POST" action="/predict" id="predict-form">
+    {% for feature in features %}
+      <label>{{ feature }}:</label><br>
+      <input type="text" name="{{ feature }}" required><br>
+    {% endfor %}
+    <br>
+    <button type="submit">🔍 Predict Risk</button>
+  </form>
+
+  {% if result %}
+    <h3>🔍 Real-Time Prediction Result</h3>
+    <table>
+      {% for key, value in result.items() %}
+        <tr><td><strong>{{ key }}</strong></td><td>{{ value }}</td></tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
+  <hr>
+  <h2>📅 Forecast Risk Check</h2>
+  <button onclick="fetchForecast()">Check Forecast Risk</button>
+  <div id="forecast-section"></div>
+
+  <script>
+    async function fetchForecast() {
+      const res = await fetch('/forecast-risk');
+      const data = await res.json();
+      const section = document.getElementById('forecast-section');
+      section.innerHTML = `<h3>📅 Forecast Risk Predictions</h3>`;
+
+      if (data.recommendations) {
+        const rows = data.recommendations.map(row => `
+          <tr>
+            <td>${row.datetime}</td>
+            <td>${row.Windspeed87m}</td>
+            <td>${row.WD187m}</td>
+            <td>${row.Temp1}</td>
+            <td>${parseFloat(row.Suggested_Yaw).toFixed(2)}</td>
+            <td>${parseFloat(row.Suggested_Pitch).toFixed(2)}</td>
+            <td>${parseFloat(row.Suggested_RotorSpd).toFixed(2)}</td>
+          </tr>
+        `).join("");
+
+        section.innerHTML += `
+          <table>
+            <tr>
+              <th>Date & Time</th>
+              <th>Wind Speed</th>
+              <th>Wind Direction</th>
+              <th>Temperature</th>
+              <th>Suggested Yaw</th>
+              <th>Suggested Pitch</th>
+              <th>Suggested Rotor Speed</th>
+            </tr>
+            ${rows}
+          </table>
+        `;
+      } else {
+        section.innerHTML += `<p>${data.message}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
